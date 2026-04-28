@@ -15,6 +15,6 @@ public abstract class MixinStringRenderOutput {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void fadeInit(CallbackInfo ci) {
-        this.a = (float) ((double) this.a * FadeCenter.getInstance().fadeAlpha());
+        this.a = this.a * FadeCenter.getInstance().fadeAlpha();
     }
 }

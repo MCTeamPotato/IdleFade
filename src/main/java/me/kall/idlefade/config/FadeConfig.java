@@ -23,7 +23,7 @@ public class FadeConfig implements FadeApi {
     private FadeConfig() {
         this.jsonConfig = JsonConfig.create(IdleFade.MOD_ID, CONFIG_VERSION).put(KEY_ENABLE_FADE, true)
                 .put(KEY_TICK_COUNT_BEFORE_FADE, 100)
-                .put(KEY_FADE_SPEED, 0.05)
+                .put(KEY_FADE_SPEED, 5)
                 .put(KEY_UNFADABLE_RESOURCES, new ObjectOpenHashSet<String>())
                 .initialize();
         this.validate();
@@ -55,8 +55,8 @@ public class FadeConfig implements FadeApi {
         return this.jsonConfig.getInt(KEY_TICK_COUNT_BEFORE_FADE);
     }
 
-    public double fadeSpeed() {
-        return this.jsonConfig.getDouble(KEY_FADE_SPEED);
+    public int fadeSpeed() {
+        return this.jsonConfig.getInt(KEY_FADE_SPEED);
     }
 
     public boolean isUnfadable(ResourceLocation id) {
@@ -65,17 +65,10 @@ public class FadeConfig implements FadeApi {
         }
     }
 
-    private void validate() {
+    public void validate() {
         synchronized (this.unfadableResourcesCache) {
             this.unfadableResourcesCache.clear();
             this.jsonConfig.getStream(KEY_UNFADABLE_RESOURCES, String.class).forEach(id -> this.unfadableResourcesCache.add(ResourceLocation.parse(id)));
-        }
-
-        double speed = this.jsonConfig.getDouble(KEY_FADE_SPEED);
-        double inverse = 1.0 / speed;
-        double rounded = Math.round(inverse);
-        if (Math.abs(inverse - rounded) > 1e-6) {
-            throw new IllegalArgumentException("1.0 / fadeSpeed must be an integer. Current fadeSpeed = " + speed + ", 1.0 / speed = " + inverse + ", expected integer near " + rounded);
         }
     }
 }

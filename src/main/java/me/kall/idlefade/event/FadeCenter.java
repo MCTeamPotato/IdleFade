@@ -11,10 +11,13 @@ import org.jetbrains.annotations.NotNull;
 public class FadeCenter {
     private static final FadeCenter INSTANCE = new FadeCenter();
 
+    private static final float HIDDEN = 0F;
+    private static final float FULL = 1F;
+
     private final Mouse last = new Mouse();
 
     private int stopTicks = 0;
-    private double fadeAlpha = 1.0;
+    private int fadeAlpha = 100;
 
     public static FadeCenter getInstance() {
         return INSTANCE;
@@ -26,19 +29,23 @@ public class FadeCenter {
     }
 
     public boolean hidden() {
-        return this.fadeAlpha == 0.0F;
+        return this.fadeAlpha == 0;
     }
 
-    public double fadeAlpha() {
-        return this.fadeAlpha;
+    public boolean full() {
+        return this.fadeAlpha == 100;
+    }
+
+    public float fadeAlpha() {
+        if (this.full()) return FULL;
+        if (this.hidden()) return HIDDEN;
+        return (float) this.fadeAlpha / 100F;
     }
 
     public int modifyAlpha(int color) {
-        float fadeAlpha = (float) this.fadeAlpha;
-        if (!FadeConfig.getInstance().fadable()) return color;
-        if (fadeAlpha == 1.0) return color;
-        if (fadeAlpha == 0.0) return (color & 0x00FFFFFF);
-        int alpha = (int)(fadeAlpha * 255.0F) & 0xFF;
+        if (!FadeConfig.getInstance().fadable() || this.full()) return color;
+        if (this.hidden()) return (color & 0x00FFFFFF);
+        int alpha = (int)(this.fadeAlpha() * 255.0F) & 0xFF;
         return (color & 0x00FFFFFF) | (alpha << 24);
     }
 
@@ -56,7 +63,11 @@ public class FadeCenter {
             this.stopTicks = 0;
         }
 
-        this.fadeAlpha = this.stopTicks >= FadeConfig.getInstance().tickCountBeforeFade() ? Math.max(0.0, this.fadeAlpha - FadeConfig.getInstance().fadeSpeed()) : Math.min(1.0, this.fadeAlpha + FadeConfig.getInstance().fadeSpeed());
+        int fadeAlpha = this.stopTicks >= FadeConfig.getInstance().tickCountBeforeFade() ? Math.max(0, this.fadeAlpha - FadeConfig.getInstance().fadeSpeed()) : Math.min(100, this.fadeAlpha + FadeConfig.getInstance().fadeSpeed());
+        if (this.fadeAlpha != fadeAlpha) {
+            System.out.println("FadeAlpha updated from " + this.fadeAlpha + " to " + fadeAlpha);
+            this.fadeAlpha = fadeAlpha;
+        }
     }
 
     public void anyInput(InputEvent event) {

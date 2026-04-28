@@ -29,9 +29,9 @@ public class SodiumOptionRegistry {
         var speed = SodiumOptions.intOption(
                 "config.idlefade.fade_speed",
                 true,
-                () -> (int) (FadeConfig.getInstance().fadeSpeed() * 100),
-                (intValue) -> FadeConfig.getInstance().jsonConfig.put(FadeConfig.KEY_FADE_SPEED, (double) intValue / 100D).saveToFile(),
-                1, 100, 3, null
+                () -> FadeConfig.getInstance().fadeSpeed(),
+                (intValue) -> FadeConfig.getInstance().jsonConfig.put(FadeConfig.KEY_FADE_SPEED, intValue).saveToFile(),
+                1, 50, 1, null
         );
         event.addPage(SodiumOptions.newPage("config.idlefade.page", SodiumOptions.newGroup(IdleFade.MOD_ID, enable, tick, speed)));
     }

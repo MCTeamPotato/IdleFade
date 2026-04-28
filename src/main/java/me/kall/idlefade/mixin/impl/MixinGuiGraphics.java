@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class MixinGuiGraphics {
     @WrapMethod(method = "setColor")
     private void fade$setColor(float red, float green, float blue, float alpha, @NotNull Operation<Void> original) {
-        original.call(red, green, blue, (float)((double) alpha * FadeCenter.getInstance().fadeAlpha()));
+        original.call(red, green, blue, alpha * FadeCenter.getInstance().fadeAlpha());
     }
 
     @WrapMethod(method = "fill(Lnet/minecraft/client/renderer/RenderType;IIIIII)V")
@@ -30,7 +30,7 @@ public abstract class MixinGuiGraphics {
 
     @WrapMethod(method = "innerBlit(Lnet/minecraft/resources/ResourceLocation;IIIIIFFFFFFFF)V")
     private void fade$innerBlit(ResourceLocation atlasLocation, int x1, int x2, int y1, int y2, int blitOffset, float minU, float maxU, float minV, float maxV, float red, float green, float blue, float alpha, @NotNull Operation<Void> original) {
-        original.call(atlasLocation, x1, x2, y1, y2, blitOffset, minU, maxU, minV, maxV, red, green, blue, FadeConfig.getInstance().isUnfadable(atlasLocation) ? alpha : (float)((double) alpha * FadeCenter.getInstance().fadeAlpha()));
+        original.call(atlasLocation, x1, x2, y1, y2, blitOffset, minU, maxU, minV, maxV, red, green, blue, FadeConfig.getInstance().isUnfadable(atlasLocation) ? alpha : alpha * FadeCenter.getInstance().fadeAlpha());
     }
 
     @WrapMethod(method = "innerBlit(Lnet/minecraft/resources/ResourceLocation;IIIIIFFFF)V")
