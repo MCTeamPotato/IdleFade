@@ -1,5 +1,5 @@
 {
-  "config.idlefade.page": "闲置淡出",
+  "config.idlefade.page": "闲置时淡出",
 
   "config.idlefade.enable_fade": "启用淡出",
   "config.idlefade.enable_fade.tooltip": "启用或禁用界面元素的闲置淡出效果。",

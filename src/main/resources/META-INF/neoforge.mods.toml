@@ -9,9 +9,10 @@ version = "${version}"
 displayName = "IdleFade"
 authors = "Kall"
 description = '''
-A Minecraft mod
+A a lightweight client-side mod that dynamically fades out GUI elements when the player is idle.
+When no mouse movement or input is detected for a configurable amount of time, on-screen UI (including text, backgrounds, and textures) will gradually become transparent, reducing visual clutter and improving immersion. Any interaction instantly restores full visibility.
 '''
-#logoFile = ""
+logoFile = "logo.png"
 
 [[dependencies.idlefade]]
 modId="duplicationless"
