@@ -13,19 +13,8 @@ import org.jetbrains.annotations.NotNull;
 public class SodiumOptionRegistry {
     @SubscribeEvent
     public static void optionRegistry(@NotNull OptionGUIConstructionEvent event) {
-        var enable = SodiumOptions.boolOption(
-                "config.idlefade.enable_fade",
-                true,
-                () -> FadeConfig.getInstance().fadable(),
-                (value) -> FadeConfig.getInstance().setFadable(value), null
-        );
-        var tick = SodiumOptions.intOption(
-                "config.idlefade.fade_wait",
-                true,
-                () -> FadeConfig.getInstance().ticksBeforeFade() / 20,
-                (intValue) -> FadeConfig.getInstance().setTicksBeforeFade(intValue * 20),
-                1, 100, 1, null
-        );
+        var enable = SodiumOptions.boolOption("config.idlefade.enable_fade", true, () -> FadeConfig.getInstance().fadable(), (value) -> FadeConfig.getInstance().setFadable(value), null);
+        var tick = SodiumOptions.intOption("config.idlefade.fade_wait", true, () -> FadeConfig.getInstance().ticksBeforeFade() / 20, (intValue) -> FadeConfig.getInstance().setTicksBeforeFade(intValue * 20), 1, 100, 1, null);
         event.addPage(SodiumOptions.newPage("config.idlefade.page", SodiumOptions.newGroup(IdleFade.MOD_ID, enable, tick)));
     }
 }
