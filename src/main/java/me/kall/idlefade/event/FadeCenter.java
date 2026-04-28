@@ -9,72 +9,70 @@ import net.minecraftforge.event.TickEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class FadeCenter {
-    private static final FadeCenter INSTANCE = new FadeCenter();
-
     private static final float HIDDEN = 0F;
     private static final float FULL = 1F;
 
-    private final Mouse last = new Mouse();
+    private static final MousePos lastMouse = new MousePos();
 
-    private int stopTicks = 0;
-    private int fadeAlpha = 100;
-
-    public static FadeCenter getInstance() {
-        return INSTANCE;
-    }
+    private static int stopTicks = 0;
+    private static int fadeAlpha = 100;
 
     public static void register() {
-        MinecraftForge.EVENT_BUS.addListener(INSTANCE::tickClient);
-        MinecraftForge.EVENT_BUS.addListener(INSTANCE::anyInput);
+        MinecraftForge.EVENT_BUS.addListener(FadeCenter::tickClient);
+        MinecraftForge.EVENT_BUS.addListener(FadeCenter::anyInput);
+        MinecraftForge.EVENT_BUS.addListener(FadeCenter::mouseInput);
     }
 
-    public boolean hidden() {
-        return this.fadeAlpha == 0;
+    public static boolean hidden() {
+        return fadeAlpha == 0;
     }
 
-    public boolean full() {
-        return this.fadeAlpha == 100;
+    public static boolean full() {
+        return fadeAlpha == 100;
     }
 
-    public float fadeAlpha() {
-        if (this.full()) return FULL;
-        if (this.hidden()) return HIDDEN;
-        return (float) this.fadeAlpha / 100F;
+    public static float fadeAlpha() {
+        if (full()) return FULL;
+        if (hidden()) return HIDDEN;
+        return (float) fadeAlpha / 100F;
     }
 
-    public int modifyAlpha(int color) {
-        if (!FadeConfig.getInstance().fadable() || this.full()) return color;
-        if (this.hidden()) return (color & 0x00FFFFFF);
-        int alpha = (int)(this.fadeAlpha() * 255.0F) & 0xFF;
+    public static int modifyAlpha(int color) {
+        if (!FadeConfig.getInstance().fadable() || full()) return color;
+        if (hidden()) return (color & 0x00FFFFFF);
+        int alpha = (int)(fadeAlpha() * 255.0F) & 0xFF;
         return (color & 0x00FFFFFF) | (alpha << 24);
     }
 
-    public void tickClient(TickEvent.@NotNull ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.START) return;
-        Minecraft minecraft = Minecraft.getInstance();
-        MouseHandler mouseHandler = minecraft.mouseHandler;
-        double x = mouseHandler.xpos();
-        double y = mouseHandler.ypos();
+    public static void tickClient(TickEvent.@NotNull ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.START && FadeConfig.getInstance().fadable()) {
+            Minecraft minecraft = Minecraft.getInstance();
+            MouseHandler mouseHandler = minecraft.mouseHandler;
+            double x = mouseHandler.xpos();
+            double y = mouseHandler.ypos();
 
-        if (FadeConfig.getInstance().fadable() && minecraft.level == null && minecraft.player == null && minecraft.screen != null && !this.last.init(x, y)) {
-            this.stopTicks = this.last.same(x, y) ? this.stopTicks + 1 : 0;
-            this.last.set(x, y);
-        } else {
-            this.stopTicks = 0;
-        }
+            if (minecraft.level == null && minecraft.player == null && minecraft.screen != null && minecraft.getOverlay() == null && !lastMouse.init(x, y)) {
+                stopTicks = lastMouse.same(x, y) ? stopTicks + 1 : 0;
+                lastMouse.set(x, y);
+            } else {
+                stopTicks = 0;
+            }
 
-        int fadeAlpha = this.stopTicks >= FadeConfig.getInstance().tickCountBeforeFade() ? Math.max(0, this.fadeAlpha - FadeConfig.getInstance().fadeSpeed()) : Math.min(100, this.fadeAlpha + FadeConfig.getInstance().fadeSpeed());
-        if (this.fadeAlpha != fadeAlpha) {
-            System.out.println("FadeAlpha updated from " + this.fadeAlpha + " to " + fadeAlpha);
-            this.fadeAlpha = fadeAlpha;
+            fadeAlpha = stopTicks >= FadeConfig.getInstance().ticksBeforeFade() ? fadeAlpha - 1 : fadeAlpha + 5;
+            if (fadeAlpha < 0) fadeAlpha = 0;
+            if (fadeAlpha > 100) fadeAlpha = 100;
         }
     }
 
-    public void anyInput(InputEvent event) {
-        Minecraft.getInstance().execute(() -> this.stopTicks = 0);
+    public static void anyInput(InputEvent event) {
+        Minecraft.getInstance().execute(() -> stopTicks = 0);
     }
 
-    static class Mouse {
+    public static void mouseInput(InputEvent.MouseButton event) {
+        Minecraft.getInstance().execute(() -> fadeAlpha = 100);
+    }
+
+    static class MousePos {
         double x = Double.NaN;
         double y = Double.NaN;
 

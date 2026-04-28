@@ -19,26 +19,26 @@ public abstract class MixinFont {
 
     @WrapMethod(method = "drawInBatch8xOutline")
     private void fade$drawInBatch8xOutline(FormattedCharSequence text, float x, float y, int color, int backgroundColor, Matrix4f matrix, MultiBufferSource bufferSource, int packedLightCoords, @NotNull Operation<Void> original) {
-        original.call(FadeCenter.getInstance().hidden() ? FormattedCharSequence.EMPTY : text, x, y, FadeCenter.getInstance().modifyAlpha(color), backgroundColor, matrix, bufferSource, packedLightCoords);
+        original.call(FadeCenter.hidden() ? FormattedCharSequence.EMPTY : text, x, y, FadeCenter.modifyAlpha(color), backgroundColor, matrix, bufferSource, packedLightCoords);
     }
 
     @WrapMethod(method = "drawInBatch(Lnet/minecraft/util/FormattedCharSequence;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;II)I")
     private int fade$drawInBatch(FormattedCharSequence text, float x, float y, int color, boolean dropShadow, Matrix4f matrix, MultiBufferSource buffer, Font.DisplayMode displayMode, int backgroundColor, int packedLightCoords, @NotNull Operation<Integer> original) {
-        return original.call(FadeCenter.getInstance().hidden() ? FormattedCharSequence.EMPTY : text, x, y, FadeCenter.getInstance().modifyAlpha(color), dropShadow, matrix, buffer, displayMode, backgroundColor, packedLightCoords);
+        return original.call(FadeCenter.hidden() ? FormattedCharSequence.EMPTY : text, x, y, FadeCenter.modifyAlpha(color), dropShadow, matrix, buffer, displayMode, backgroundColor, packedLightCoords);
     }
 
     @WrapMethod(method = "drawInBatch(Lnet/minecraft/network/chat/Component;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;II)I")
     private int fade$drawInBatch(Component text, float x, float y, int color, boolean dropShadow, Matrix4f matrix, MultiBufferSource buffer, Font.DisplayMode displayMode, int backgroundColor, int packedLightCoords, @NotNull Operation<Integer> original) {
-        return original.call(FadeCenter.getInstance().hidden() ? EMPTY_COMPONENT : text, x, y, FadeCenter.getInstance().modifyAlpha(color), dropShadow, matrix, buffer, displayMode, backgroundColor, packedLightCoords);
+        return original.call(FadeCenter.hidden() ? EMPTY_COMPONENT : text, x, y, FadeCenter.modifyAlpha(color), dropShadow, matrix, buffer, displayMode, backgroundColor, packedLightCoords);
     }
 
     @WrapMethod(method = "drawInBatch(Ljava/lang/String;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;II)I")
     private int fade$drawInBatch(String text, float x, float y, int color, boolean dropShadow, Matrix4f matrix, MultiBufferSource buffer, Font.DisplayMode displayMode, int backgroundColor, int packedLightCoords, @NotNull Operation<Integer> original) {
-        return original.call(FadeCenter.getInstance().hidden() ? EMPTY_STRING : text, x, y, FadeCenter.getInstance().modifyAlpha(color), dropShadow, matrix, buffer, displayMode, backgroundColor, packedLightCoords);
+        return original.call(FadeCenter.hidden() ? EMPTY_STRING : text, x, y, FadeCenter.modifyAlpha(color), dropShadow, matrix, buffer, displayMode, backgroundColor, packedLightCoords);
     }
 
     @WrapMethod(method = "drawInBatch(Ljava/lang/String;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/gui/Font$DisplayMode;IIZ)I")
     private int fade$drawInBatch(String text, float x, float y, int color, boolean dropShadow, Matrix4f matrix, MultiBufferSource buffer, Font.DisplayMode displayMode, int backgroundColor, int packedLightCoords, boolean bidirectional, @NotNull Operation<Integer> original) {
-        return original.call(FadeCenter.getInstance().hidden() ? EMPTY_STRING : text, x, y, FadeCenter.getInstance().modifyAlpha(color), dropShadow, matrix, buffer, displayMode, backgroundColor, packedLightCoords, bidirectional);
+        return original.call(FadeCenter.hidden() ? EMPTY_STRING : text, x, y, FadeCenter.modifyAlpha(color), dropShadow, matrix, buffer, displayMode, backgroundColor, packedLightCoords, bidirectional);
     }
 }

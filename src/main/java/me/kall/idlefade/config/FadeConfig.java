@@ -15,15 +15,13 @@ public class FadeConfig implements FadeApi {
     private final ObjectOpenHashSet<ResourceLocation> unfadableResourcesCache = new ObjectOpenHashSet<>();
 
     public static final String KEY_ENABLE_FADE = "enableFade";
-    public static final String KEY_TICK_COUNT_BEFORE_FADE = "tickCountBeforeFade";
-    public static final String KEY_FADE_SPEED = "fadeSpeed";
+    public static final String KEY_TICKS_BEFORE_FADE = "ticksBeforeFade";
 
     public static final String KEY_UNFADABLE_RESOURCES = "unfadableResources";
 
     private FadeConfig() {
         this.jsonConfig = JsonConfig.create(IdleFade.MOD_ID, CONFIG_VERSION).put(KEY_ENABLE_FADE, true)
-                .put(KEY_TICK_COUNT_BEFORE_FADE, 100)
-                .put(KEY_FADE_SPEED, 5)
+                .put(KEY_TICKS_BEFORE_FADE, 200)
                 .put(KEY_UNFADABLE_RESOURCES, new ObjectOpenHashSet<String>())
                 .initialize();
         this.validate();
@@ -51,12 +49,16 @@ public class FadeConfig implements FadeApi {
         return this.jsonConfig.getBoolean(KEY_ENABLE_FADE);
     }
 
-    public int tickCountBeforeFade() {
-        return this.jsonConfig.getInt(KEY_TICK_COUNT_BEFORE_FADE);
+    public void setFadable(boolean value) {
+        this.jsonConfig.put(FadeConfig.KEY_ENABLE_FADE, value).saveToFile();
     }
 
-    public int fadeSpeed() {
-        return this.jsonConfig.getInt(KEY_FADE_SPEED);
+    public int ticksBeforeFade() {
+        return this.jsonConfig.getInt(KEY_TICKS_BEFORE_FADE);
+    }
+
+    public void setTicksBeforeFade(int value) {
+        this.jsonConfig.put(FadeConfig.KEY_TICKS_BEFORE_FADE, value).saveToFile();
     }
 
     public boolean isUnfadable(ResourceLocation id) {

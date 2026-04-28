@@ -17,22 +17,15 @@ public class SodiumOptionRegistry {
                 "config.idlefade.enable_fade",
                 true,
                 () -> FadeConfig.getInstance().fadable(),
-                (value) -> FadeConfig.getInstance().jsonConfig.put(FadeConfig.KEY_ENABLE_FADE, value).saveToFile(), null
+                (value) -> FadeConfig.getInstance().setFadable(value), null
         );
         var tick = SodiumOptions.intOption(
-                "config.idlefade.tick_count_before_fade",
+                "config.idlefade.fade_wait",
                 true,
-                () -> FadeConfig.getInstance().tickCountBeforeFade(),
-                (intValue) -> FadeConfig.getInstance().jsonConfig.put(FadeConfig.KEY_TICK_COUNT_BEFORE_FADE, intValue).saveToFile(),
-                20, 240, 20, null
+                () -> FadeConfig.getInstance().ticksBeforeFade() / 20,
+                (intValue) -> FadeConfig.getInstance().setTicksBeforeFade(intValue * 20),
+                1, 100, 1, null
         );
-        var speed = SodiumOptions.intOption(
-                "config.idlefade.fade_speed",
-                true,
-                () -> FadeConfig.getInstance().fadeSpeed(),
-                (intValue) -> FadeConfig.getInstance().jsonConfig.put(FadeConfig.KEY_FADE_SPEED, intValue).saveToFile(),
-                1, 50, 1, null
-        );
-        event.addPage(SodiumOptions.newPage("config.idlefade.page", SodiumOptions.newGroup(IdleFade.MOD_ID, enable, tick, speed)));
+        event.addPage(SodiumOptions.newPage("config.idlefade.page", SodiumOptions.newGroup(IdleFade.MOD_ID, enable, tick)));
     }
 }

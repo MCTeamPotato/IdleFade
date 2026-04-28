@@ -4,9 +4,6 @@
   "config.idlefade.enable_fade": "Enable Fade",
   "config.idlefade.enable_fade.tooltip": "Enable or disable idle fading for UI elements.",
 
-  "config.idlefade.tick_count_before_fade": "Ticks Before Fade",
-  "config.idlefade.tick_count_before_fade.tooltip": "How many ticks to wait before fading starts.",
-
-  "config.idlefade.fade_speed": "Fade Speed",
-  "config.idlefade.fade_speed.tooltip": "How quickly the UI fades. 100 must be divisible by this value (1, 2, 4, 5, 10, 20, 25, 50); otherwise, the fade will not work properly."
+  "config.idlefade.fade_wait": "Seconds Before Fade",
+  "config.idlefade.fade_wait.tooltip": "How many seconds to wait before fading starts. If you do any input operations during the period, the waiting will be reset."
 }
