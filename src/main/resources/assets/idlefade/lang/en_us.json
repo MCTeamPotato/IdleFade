@@ -1,3 +1,12 @@
 {
-  "config.idlefade.enable_fade": ""
+  "config.idlefade.page": "Idle Fade",
+  
+  "config.idlefade.enable_fade": "Enable Fade",
+  "config.idlefade.enable_fade.tooltip": "",
+
+  "config.idlefade.tick_count_before_fade": "Ticks Before Fade",
+  "config.idlefade.tick_count_before_fade.tooltip": "",
+
+  "config.idlefade.fade_speed": "Fade Speed",
+  "config.idlefade.fade_speed.tooltip": ""
 }
