@@ -2,11 +2,11 @@
   "config.idlefade.page": "Idle Fade",
 
   "config.idlefade.enable_fade": "Enable Fade",
-  "config.idlefade.enable_fade.tooltip": "",
+  "config.idlefade.enable_fade.tooltip": "Enable or disable idle fading for UI elements.",
 
   "config.idlefade.tick_count_before_fade": "Ticks Before Fade",
-  "config.idlefade.tick_count_before_fade.tooltip": "",
+  "config.idlefade.tick_count_before_fade.tooltip": "How many ticks to wait before fading starts.",
 
   "config.idlefade.fade_speed": "Fade Speed",
-  "config.idlefade.fade_speed.tooltip": ""
+  "config.idlefade.fade_speed.tooltip": "How quickly the UI fades. Must be the reciprocal of an integer (for example, 0.05 = 1/20)."
 }

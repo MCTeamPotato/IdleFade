@@ -1,0 +1,12 @@
+{
+  "config.idlefade.page": "闲置淡出",
+
+  "config.idlefade.enable_fade": "启用淡出",
+  "config.idlefade.enable_fade.tooltip": "启用或禁用界面元素的闲置淡出效果。",
+
+  "config.idlefade.tick_count_before_fade": "淡出前刻数",
+  "config.idlefade.tick_count_before_fade.tooltip": "开始淡出前等待的游戏刻数。",
+
+  "config.idlefade.fade_speed": "淡出速度",
+  "config.idlefade.fade_speed.tooltip": "界面淡出的速度。该值必须是整数倒数（例如 0.05 = 1/20）。"
+}
