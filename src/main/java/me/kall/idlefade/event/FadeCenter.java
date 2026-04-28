@@ -23,23 +23,23 @@ public class FadeCenter {
         MinecraftForge.EVENT_BUS.addListener(FadeCenter::mouseInput);
     }
 
-    public static boolean hidden() {
+    public static boolean isHidden() {
         return fadeAlpha == 0;
     }
 
-    public static boolean full() {
+    public static boolean isFull() {
         return fadeAlpha == 100;
     }
 
     public static float fadeAlpha() {
-        if (full()) return FULL;
-        if (hidden()) return HIDDEN;
+        if (isFull()) return FULL;
+        if (isHidden()) return HIDDEN;
         return (float) fadeAlpha / 100F;
     }
 
     public static int modifyAlpha(int color) {
-        if (!FadeConfig.getInstance().fadable() || full()) return color;
-        if (hidden()) return (color & 0x00FFFFFF);
+        if (!FadeConfig.getInstance().fadable() || isFull()) return color;
+        if (isHidden()) return (color & 0x00FFFFFF);
         int alpha = (int)(fadeAlpha() * 255.0F) & 0xFF;
         return (color & 0x00FFFFFF) | (alpha << 24);
     }
