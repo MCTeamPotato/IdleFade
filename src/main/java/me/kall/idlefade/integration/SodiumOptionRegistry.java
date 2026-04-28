@@ -23,14 +23,14 @@ public class SodiumOptionRegistry {
                 "config.idlefade.tick_count_before_fade",
                 true,
                 () -> FadeConfig.getInstance().tickCountBeforeFade(),
-                (value) -> FadeConfig.getInstance().jsonConfig.put(FadeConfig.KEY_TICK_COUNT_BEFORE_FADE, value).saveToFile(),
+                (intValue) -> FadeConfig.getInstance().jsonConfig.put(FadeConfig.KEY_TICK_COUNT_BEFORE_FADE, intValue).saveToFile(),
                 20, 240, 20, null
         );
         var speed = SodiumOptions.intOption(
                 "config.idlefade.fade_speed",
                 true,
                 () -> (int) (FadeConfig.getInstance().fadeSpeed() * 100),
-                (value) -> FadeConfig.getInstance().jsonConfig.put(FadeConfig.KEY_FADE_SPEED, (double) value / 100D).saveToFile(),
+                (intValue) -> FadeConfig.getInstance().jsonConfig.put(FadeConfig.KEY_FADE_SPEED, (double) intValue / 100D).saveToFile(),
                 1, 100, 3, null
         );
         event.addPage(SodiumOptions.newPage("config.idlefade.page", SodiumOptions.newGroup(IdleFade.MOD_ID, enable, tick, speed)));
